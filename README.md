@@ -1,6 +1,6 @@
 # El Pollo Loco
 
-![](./preview.jpg)
+![](./preview.png)
 
 ### 📋 Overview
 
