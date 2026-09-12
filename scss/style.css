@@ -1,0 +1,488 @@
+@font-face {
+  font-family: "Sour Gummy";
+  src: url("../assets/fonts/SourGummy-VariableFont_wdth,wght.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+}
+@font-face {
+  font-family: "Sour Gummy";
+  src: url("../assets/fonts/SourGummy-Italic-VariableFont_wdth,wght.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 100 900;
+}
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  scrollbar-color: rgb(244, 183, 124) rgb(194, 104, 70);
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+svg {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+img {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.body_game_site {
+  background-image: url("../assets/images/landing_page/bg.jpg");
+  background-color: rgb(244, 183, 124);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  color: white;
+  font-family: "Sour Gummy", sans-serif;
+}
+@media screen and (max-width: 945px) and (orientation: portrait) {
+  .body_game_site {
+    background-image: url("../assets/images/landing_page/rotate_device.jpg");
+    background-position: 50% 30%;
+  }
+}
+@media screen and (max-width: 800px) and (orientation: portrait) {
+  .body_game_site {
+    background-position: center;
+  }
+}
+@media screen and (max-width: 400px) and (orientation: portrait) {
+  .body_game_site {
+    background-size: 100% 100%;
+  }
+}
+
+.body_legal-links {
+  background-image: url("../assets/images/landing_page/bg.jpg");
+  background-color: rgb(244, 183, 124);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  color: white;
+  font-family: "Sour Gummy", sans-serif;
+}
+
+.main_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  min-height: 100vh;
+}
+.main_content .imprint_site,
+.main_content .privacy_Policy_site {
+  background-color: rgb(245, 199, 149);
+  filter: drop-shadow(2px 2px 2px rgb(0, 0, 0));
+  border: 4px solid rgb(194, 104, 70);
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  color: black;
+  padding: 20px 20px 30px 20px;
+  width: 80%;
+  overflow-wrap: break-word;
+  -webkit-hyphens: auto;
+          hyphens: auto;
+  margin-bottom: 50px;
+  position: relative;
+}
+@media (max-width: 945px) {
+  .main_content .imprint_site,
+  .main_content .privacy_Policy_site {
+    margin-block: 25px;
+  }
+}
+.main_content .imprint_site .return,
+.main_content .privacy_Policy_site .return {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+@media (max-width: 945px) {
+  .main_content .imprint_site .return,
+  .main_content .privacy_Policy_site .return {
+    display: block;
+  }
+}
+.main_content .imprint_site .return:hover,
+.main_content .privacy_Policy_site .return:hover {
+  cursor: pointer;
+}
+.main_content .imprint_site .return svg,
+.main_content .privacy_Policy_site .return svg {
+  height: 35px;
+  width: 35px;
+  fill: rgb(194, 104, 70);
+  filter: drop-shadow(2px 2px 2px rgb(255, 255, 255));
+}
+.main_content .imprint_site .header,
+.main_content .imprint_site .address,
+.main_content .imprint_site .representedBy,
+.main_content .imprint_site .contact,
+.main_content .privacy_Policy_site .header,
+.main_content .privacy_Policy_site .address,
+.main_content .privacy_Policy_site .representedBy,
+.main_content .privacy_Policy_site .contact {
+  margin-block: 10px;
+}
+.main_content .imprint_site a,
+.main_content .privacy_Policy_site a {
+  color: rgb(194, 104, 70);
+  filter: drop-shadow(0px 0px 1px rgb(255, 255, 255));
+}
+.main_content .imprint_site h1,
+.main_content .imprint_site h2,
+.main_content .imprint_site h3,
+.main_content .privacy_Policy_site h1,
+.main_content .privacy_Policy_site h2,
+.main_content .privacy_Policy_site h3 {
+  color: rgb(194, 104, 70);
+  filter: drop-shadow(0px 0px 1px rgb(255, 255, 255));
+}
+.main_content .imprint_site h1,
+.main_content .imprint_site h2,
+.main_content .imprint_site h3,
+.main_content .imprint_site p,
+.main_content .imprint_site ul,
+.main_content .privacy_Policy_site h1,
+.main_content .privacy_Policy_site h2,
+.main_content .privacy_Policy_site h3,
+.main_content .privacy_Policy_site p,
+.main_content .privacy_Policy_site ul {
+  margin-top: 15px;
+}
+.main_content .imprint_site ul,
+.main_content .privacy_Policy_site ul {
+  margin-left: 20px;
+}
+.main_content .imprint_site li,
+.main_content .privacy_Policy_site li {
+  margin-block: 10px;
+}
+.main_content .address p,
+.main_content .representedBy p,
+.main_content .contact p {
+  margin-top: 0;
+}
+.main_content .privacy_policy {
+  position: absolute;
+  top: -30px;
+  left: 45px;
+  height: 160px;
+  width: 160px;
+}
+.main_content .privacy_policy:hover {
+  cursor: pointer;
+}
+@media (max-width: 945px) {
+  .main_content .privacy_policy {
+    display: none;
+  }
+}
+.main_content .imprint {
+  position: absolute;
+  top: -18px;
+  right: 45px;
+  height: 160px;
+  width: 160px;
+  transform: rotate(8deg);
+}
+.main_content .imprint:hover {
+  cursor: pointer;
+}
+@media (max-width: 945px) {
+  .main_content .imprint {
+    display: none;
+  }
+}
+.main_content .el_pollo_loco_logo {
+  height: 90px;
+  width: 90px;
+  margin-block: 10px;
+}
+.main_content .el_pollo_loco_logo:hover {
+  cursor: pointer;
+}
+@media (max-width: 945px) {
+  .main_content .el_pollo_loco_logo {
+    display: none;
+  }
+}
+.main_content .canvas_container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media screen and (max-width: 945px) and (orientation: portrait) {
+  .main_content .canvas_container {
+    display: none;
+  }
+}
+.main_content .canvas_container .start_screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("../assets/images/landing_page/bg_canvas.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 6;
+}
+.main_content .canvas_container .start_screen:hover {
+  cursor: pointer;
+}
+.main_content .canvas_container .game_over_screen {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("../assets/images/landing_page/bg_canvas_game_over.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 6;
+}
+.main_content .canvas_container .win_screen {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("../assets/images/landing_page/bg_canvas_win.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 6;
+}
+.main_content .canvas_container .end_screen_actions {
+  position: absolute;
+  bottom: 8%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.main_content .canvas_container .end_screen_actions button {
+  background-color: rgb(245, 199, 149);
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 1));
+  border: 4px solid rgb(194, 104, 70);
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  color: black;
+  width: auto;
+  padding: 8px 24px;
+  cursor: pointer;
+}
+.main_content .canvas_container .canvas {
+  display: block;
+  background-color: rgb(0, 0, 0);
+  box-shadow: 0px 5px 10px 10px rgba(0, 0, 0, 0.5);
+  max-height: 100dvh;
+  max-width: 100%;
+}
+.main_content .canvas_container .game_control {
+  display: none;
+  position: absolute;
+  bottom: 5px;
+  justify-content: space-between;
+  width: 100%;
+  padding-inline: 10px;
+  z-index: 5;
+}
+@media (max-width: 945px) {
+  .main_content .canvas_container .game_control {
+    display: flex;
+  }
+}
+.main_content .canvas_container .game_control .controls_left,
+.main_content .canvas_container .game_control .controls_right {
+  display: flex;
+  gap: 15px;
+}
+.main_content .canvas_container .game_control .controls_left .move_left,
+.main_content .canvas_container .game_control .controls_left .move_right,
+.main_content .canvas_container .game_control .controls_left .jump,
+.main_content .canvas_container .game_control .controls_left .throw,
+.main_content .canvas_container .game_control .controls_right .move_left,
+.main_content .canvas_container .game_control .controls_right .move_right,
+.main_content .canvas_container .game_control .controls_right .jump,
+.main_content .canvas_container .game_control .controls_right .throw {
+  border: 4px solid rgb(194, 104, 70);
+  border-radius: 50%;
+  background-color: rgb(245, 199, 149);
+  height: 50px;
+  width: 50px;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+.main_content .canvas_container .game_control .controls_left .move_left svg,
+.main_content .canvas_container .game_control .controls_left .move_right svg,
+.main_content .canvas_container .game_control .controls_left .jump svg,
+.main_content .canvas_container .game_control .controls_left .throw svg,
+.main_content .canvas_container .game_control .controls_right .move_left svg,
+.main_content .canvas_container .game_control .controls_right .move_right svg,
+.main_content .canvas_container .game_control .controls_right .jump svg,
+.main_content .canvas_container .game_control .controls_right .throw svg {
+  height: 100%;
+  width: 100%;
+}
+.main_content .canvas_container .game_control .controls_left .move_left img,
+.main_content .canvas_container .game_control .controls_left .move_right img,
+.main_content .canvas_container .game_control .controls_left .jump img,
+.main_content .canvas_container .game_control .controls_left .throw img,
+.main_content .canvas_container .game_control .controls_right .move_left img,
+.main_content .canvas_container .game_control .controls_right .move_right img,
+.main_content .canvas_container .game_control .controls_right .jump img,
+.main_content .canvas_container .game_control .controls_right .throw img {
+  height: 100%;
+  width: 100%;
+  transform: rotate(10deg);
+}
+.main_content .canvas_container .request_fullscreen {
+  background-color: rgb(245, 199, 149);
+  filter: drop-shadow(2px 2px 2px rgb(0, 0, 0));
+  border: 4px solid rgb(194, 104, 70);
+  border-radius: 10px;
+  height: 40px;
+  width: 40px;
+  font-weight: bold;
+  font-size: 18px;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 1;
+}
+@media (max-width: 945px) {
+  .main_content .canvas_container .request_fullscreen {
+    display: none;
+  }
+}
+.main_content .canvas_container .request_fullscreen svg {
+  height: 80%;
+  width: 80%;
+  fill: rgb(0, 0, 0);
+}
+.main_content .canvas_container .request_fullscreen svg:hover {
+  cursor: pointer;
+}
+.main_content .canvas_container .toggleSound {
+  background-color: rgb(245, 199, 149);
+  filter: drop-shadow(2px 2px 2px rgb(0, 0, 0));
+  border: 4px solid rgb(194, 104, 70);
+  border-radius: 10px;
+  height: 40px;
+  width: 40px;
+  font-weight: bold;
+  font-size: 18px;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: unset;
+  filter: drop-shadow(2px 2px 2px rgb(255, 255, 255));
+  position: absolute;
+  top: 10px;
+  right: 50%;
+  transform: translateX(50%);
+  z-index: 10;
+}
+.main_content .canvas_container .toggleSound .unmute_sound {
+  display: none;
+}
+.main_content .canvas_container .toggleSound svg {
+  height: 80%;
+  width: 80%;
+  fill: rgb(0, 0, 0);
+}
+.main_content .canvas_container .toggleSound svg:hover {
+  cursor: pointer;
+}
+.main_content .control_description {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 1280px;
+  width: 100%;
+  padding: 10px 20px;
+}
+@media (max-width: 945px) {
+  .main_content .control_description {
+    display: none;
+  }
+}
+.main_content .control_description .description {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: black;
+  font-weight: bold;
+  font-size: 18px;
+  filter: drop-shadow(2px 2px 2px rgba(241, 237, 237, 0.5));
+}
+.main_content .control_description .description .control_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(245, 199, 149);
+  filter: drop-shadow(2px 2px 2px rgb(0, 0, 0));
+  border: 4px solid rgb(194, 104, 70);
+  border-radius: 10px;
+  height: 40px;
+  width: 40px;
+  font-weight: bold;
+  font-size: 18px;
+  color: black;
+}
+.main_content .legal-links {
+  display: none;
+  justify-content: center;
+  gap: 25px;
+  width: -moz-fit-content;
+  width: fit-content;
+  filter: drop-shadow(0px 0px 1px rgb(255, 255, 255));
+  font-weight: bold;
+  font-size: clamp(18px, 2vw, 30px);
+  color: black;
+  z-index: 10;
+  position: absolute;
+  bottom: 5px;
+}
+.main_content .legal-links:hover {
+  cursor: pointer;
+}
+@media (max-width: 945px) {
+  .main_content .legal-links {
+    display: flex;
+  }
+}/*# sourceMappingURL=style.css.map */
