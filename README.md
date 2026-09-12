@@ -16,7 +16,7 @@ El Pollo Loco is a browser-based jump'n'run game built with object-oriented Java
 
 1. Clone the repository:
    ```bash
-   git clone <your-repository-url>
+   git clone <https://github.com/ChrisNo86/el-pollo-loco.git>
    ```
 
 2. Navigate to the project directory:
@@ -26,5 +26,5 @@ El Pollo Loco is a browser-based jump'n'run game built with object-oriented Java
 
 ## ✍️ Author
 
- - Chris Noack (CN Security & Systems)
+ - Christian Noack (CN Security & Systems)
  - [Website](https://christian-noack.com)
