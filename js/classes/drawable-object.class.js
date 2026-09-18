@@ -42,7 +42,7 @@ export class DrawableObject {
     const drawableClasses = ["Character", "Chicken", "ChickenSmall", "ThrowableObject", "SalsaBottles", "VendingMachine"];
     if (drawableClasses.includes(this.constructor.name)) {
       ctx.beginPath();
-      ctx.lineWidth = "2";
+      ctx.lineWidth = 2;
       ctx.strokeStyle = "transparent";
       ctx.rect(this.x, this.y, this.width, this.height);
       ctx.stroke();

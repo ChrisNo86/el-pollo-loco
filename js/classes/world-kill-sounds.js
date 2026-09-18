@@ -5,7 +5,7 @@
 /**
  * Import kill-streak related sound effects and the sound player.
  */
-import { first_blood_sound, double_kill_sound, triple_kill_sound, rampage_sound, dominating_sound, kill_streak_sound, chicken_death_sound } from "../sounds.js";
+import { firstBloodSound, doubleKillSound, tripleKillSound, rampageSound, dominatingSound, killStreakSound, chickenDeathSound } from "../sounds.js";
 import { playSound } from "../game.js";
 
 /**
@@ -15,7 +15,12 @@ import { playSound } from "../game.js";
  */
 export function playKillSounds(world) {
   setTimeout(() => (world.rampageCount = 0), 2000);
-  rampage(world), firstBlood(world), doubleKill(world), tripleKill(world), killStreak(world), dominating(world);
+  rampage(world);
+  firstBlood(world);
+  doubleKill(world);
+  tripleKill(world);
+  killStreak(world);
+  dominating(world);
   if (world.playOnlyOnce) world.playOnlyOnce = false;
 }
 
@@ -24,7 +29,7 @@ export function playKillSounds(world) {
  * @param {Object} world - The game world instance.
  */
 function rampage(world) {
-  if (world.rampageCount >= 6) playSound(rampage_sound);
+  if (world.rampageCount >= 6) playSound(rampageSound);
 }
 
 /**
@@ -33,8 +38,10 @@ function rampage(world) {
  * @param {Object} world - The game world instance.
  */
 function firstBlood(world) {
-  if (world.deadEnemyCount == 1 || world.playOnlyOnce) {
-    world.playOnlyOnce ? playSound(first_blood_sound) : playSound(chicken_death_sound), (world.deadEnemyCount = 0);
+  if (world.deadEnemyCount === 1 || world.playOnlyOnce) {
+    if (world.playOnlyOnce) playSound(firstBloodSound);
+    else playSound(chickenDeathSound);
+    world.deadEnemyCount = 0;
   }
 }
 
@@ -44,8 +51,9 @@ function firstBlood(world) {
  * @param {Object} world - The game world instance.
  */
 function doubleKill(world) {
-  if (world.deadEnemyCount == 2 && !world.playOnlyOnce) {
-    playSound(double_kill_sound), (world.deadEnemyCount = 0);
+  if (world.deadEnemyCount === 2 && !world.playOnlyOnce) {
+    playSound(doubleKillSound);
+    world.deadEnemyCount = 0;
   }
 }
 
@@ -55,8 +63,9 @@ function doubleKill(world) {
  * @param {Object} world - The game world instance.
  */
 function tripleKill(world) {
-  if (world.deadEnemyCount == 3 && !world.playOnlyOnce) {
-    playSound(triple_kill_sound), (world.deadEnemyCount = 0);
+  if (world.deadEnemyCount === 3 && !world.playOnlyOnce) {
+    playSound(tripleKillSound);
+    world.deadEnemyCount = 0;
   }
 }
 
@@ -67,7 +76,8 @@ function tripleKill(world) {
  */
 function killStreak(world) {
   if (world.deadEnemyCount >= 4 && world.deadEnemyCount < 6 && !world.playOnlyOnce) {
-    playSound(kill_streak_sound), (world.deadEnemyCount = 0);
+    playSound(killStreakSound);
+    world.deadEnemyCount = 0;
   }
 }
 
@@ -76,7 +86,7 @@ function killStreak(world) {
  * @param {Object} world - The game world instance.
  */
 export function dominating(world) {
-  if (world.level.enemies.length == 1 && world.level.enemies[0].constructor.name === "Endboss" && world.level.enemies[0].energy > 0) {
-    playSound(dominating_sound);
+  if (world.level.enemies.length === 1 && world.level.enemies[0].constructor.name === "Endboss" && world.level.enemies[0].energy > 0) {
+    playSound(dominatingSound);
   }
 }

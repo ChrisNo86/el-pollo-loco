@@ -5,13 +5,13 @@
 /**
  * Import the MovableObject class from the movable-object.class.js module.
  * Import the setStoppableInterval and playSound functions from the game.js module.
- * Import the chicken_attack_sound, chicken_sound, and fight_sound audio files from the sounds.js module.
- * Import the characterPostion constant from the character.class.js module.
+ * Import the chickenAttackSound, chickenSound, and fightSound audio files from the sounds.js module.
+ * Import the characterPosition constant from the character.class.js module.
  */
 import { MovableObject } from "./movable-object.class.js";
 import { setStoppableInterval, playSound } from "../game.js";
-import { chicken_attack_sound, chicken_sound, fight_sound } from "../sounds.js";
-import { characterPostion } from "./character.class.js";
+import { chickenAttackSound, chickenSound, fightSound } from "../sounds.js";
+import { characterPosition } from "./character.class.js";
 
 const canvas = document.getElementById("canvas");
 const canvasHeight = canvas.height;
@@ -130,12 +130,12 @@ export class Endboss extends MovableObject {
    * Changes direction if necessary.
    */
   moveTowardsCharacter() {
-    const distance = Math.abs(this.x - characterPostion);
+    const distance = Math.abs(this.x - characterPosition);
     if (distance > this.speed * this.multiplier) {
-      this.x += (this.x > characterPostion ? -1 : 1) * this.speed * this.multiplier;
-      this.otherDirection = this.x < characterPostion;
+      this.x += (this.x > characterPosition ? -1 : 1) * this.speed * this.multiplier;
+      this.otherDirection = this.x < characterPosition;
     } else {
-      this.x = characterPostion;
+      this.x = characterPosition;
     }
   }
 
@@ -176,7 +176,7 @@ export class Endboss extends MovableObject {
    */
   animateAlert() {
     this.playAnimation(this.IMAGES_ALERT);
-    if (firstContact && startAlert < 1) playSound(fight_sound);
+    if (firstContact && startAlert < 1) playSound(fightSound);
     startAlert++;
   }
 
@@ -194,7 +194,7 @@ export class Endboss extends MovableObject {
    */
   animateHurt() {
     this.playAnimation(this.IMAGES_HURT);
-    playSound(chicken_sound);
+    playSound(chickenSound);
   }
 
   /**
@@ -203,6 +203,6 @@ export class Endboss extends MovableObject {
    */
   animateAttack() {
     this.playAnimation(this.IMAGES_ATTACK);
-    playSound(chicken_attack_sound);
+    playSound(chickenAttackSound);
   }
 }
