@@ -15,7 +15,7 @@ export class Level {
   clouds;
   vendingMachine;
   backgroundObjects;
-  level_end_x = canvasWidth * 2.5;
+  levelEndX = canvasWidth * 2.5;
 
   /**
    * Creates an instance of the Level class.

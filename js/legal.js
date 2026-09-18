@@ -7,7 +7,7 @@
  * behavior: the content box itself and the top navigation icons, which
  * already have their own click handlers.
  */
-const KEEP_OPEN_SELECTOR = ".imprint_site, .privacy_Policy_site, .privacy_policy, .imprint, .el_pollo_loco_logo";
+const KEEP_OPEN_SELECTOR = ".imprint_site, .privacy_policy_site, .privacy_policy, .imprint, .el_pollo_loco_logo";
 
 /**
  * Navigates back to the start screen, closing the legal page.

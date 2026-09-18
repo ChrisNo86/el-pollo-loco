@@ -5,11 +5,11 @@
 /**
  * Import the DrawableObject class from the drawable-object.class.js module.
  * Import the setStoppableInterval and playSound functions from the game.js module.
- * Import the jump_sound and snoring_sound audio files from the sounds.js module.
+ * Import the jumpSound and snoringSound audio files from the sounds.js module.
  */
 import { DrawableObject } from "./drawable-object.class.js";
 import { setStoppableInterval, playSound } from "../game.js";
-import { jump_sound, snoring_sound } from "../sounds.js";
+import { jumpSound, snoringSound } from "../sounds.js";
 
 const canvas = document.getElementById("canvas");
 const canvasHeight = canvas.height;
@@ -90,15 +90,12 @@ export class MovableObject extends DrawableObject {
    * Reduces the energy of the object when hit.
    *
    * @param {number} [multiplier=1] - The multiplier for the energy reduction.
-   * @param {boolean} [fromAbove=false] - Indicates if the hit is from above.
    */
-  hit(multiplier = 1, fromAbove = false) {
+  hit(multiplier = 1) {
     const currentTime = new Date().getTime();
     if (currentTime - this.lastHit < 1000) return;
     if (this.energy <= 0) return;
-    if (!fromAbove) {
-      this.energy -= 2 * multiplier;
-    }
+    this.energy -= 2 * multiplier;
     if (this.energy <= 0) {
       this.energy = 0;
     } else {
@@ -159,8 +156,8 @@ export class MovableObject extends DrawableObject {
    */
   jump() {
     this.speedY = 30;
-    snoring_sound.pause();
-    snoring_sound.currentTime = 0;
-    playSound(jump_sound, 0.1);
+    snoringSound.pause();
+    snoringSound.currentTime = 0;
+    playSound(jumpSound, 0.1);
   }
 }

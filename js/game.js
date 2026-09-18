@@ -8,7 +8,7 @@
 import { World } from "./classes/world.class.js";
 import { Keyboard } from "./classes/keyboard.class.js";
 import { initLevel1 } from "./Levels/level1.js";
-import { bg_sound } from "./sounds.js";
+import { bgSound } from "./sounds.js";
 
 let intervalId = [];
 let canvas;
@@ -19,15 +19,16 @@ let muteSounds = localStorage.getItem("muteSounds") === "true";
 export let userInteracted = false;
 
 /**
- * Applies the persisted mute state to the mute/unmute icons on page load.
+ * Shows the mute or unmute icon depending on the given mute state.
+ * @param {boolean} muted - Whether sounds are currently muted.
  */
-function applyStoredMuteState() {
+function setMuteIcons(muted) {
   const muteSoundRef = document.getElementById("mute_sound");
   const unmuteSoundRef = document.getElementById("unmute_sound");
-  muteSoundRef.style.display = muteSounds ? "block" : "none";
-  unmuteSoundRef.style.display = muteSounds ? "none" : "block";
+  muteSoundRef.style.display = muted ? "block" : "none";
+  unmuteSoundRef.style.display = muted ? "none" : "block";
 }
-document.addEventListener("DOMContentLoaded", applyStoredMuteState);
+document.addEventListener("DOMContentLoaded", () => setMuteIcons(muteSounds));
 
 const setUserInteracted = () => {
   userInteracted = true;
@@ -52,7 +53,6 @@ const setUserInteracted = () => {
  * @param {number} delay - The time, in milliseconds, that the timer should delay between executions of the callback function.
  */
 export function setStoppableInterval(callback, delay) {
-  //! setTimeout only fix for the interval issue
   setTimeout(() => {
     let Id = setInterval(callback, delay);
     intervalId.push(Id);
@@ -67,7 +67,7 @@ export function setStoppableInterval(callback, delay) {
  * @param {boolean} [loop=false] - Whether the sound should loop (default is false).
  */
 export function playSound(sound, volume = 0.5, loop = false) {
-  if (userInteracted === true) {
+  if (userInteracted) {
     if (muteSounds) return;
     sound.volume = volume;
     sound.loop = loop;
@@ -84,10 +84,7 @@ export function playSound(sound, volume = 0.5, loop = false) {
  * If the sounds are unmuted, it plays the background sound at a specified volume.
  */
 export function toggleAllSounds() {
-  const muteSoundRef = document.getElementById("mute_sound");
-  const unmuteSoundRef = document.getElementById("unmute_sound");
-  muteSoundRef.style.display = muteSounds ? "block" : "none";
-  unmuteSoundRef.style.display = muteSounds ? "none" : "block";
+  setMuteIcons(muteSounds);
   allSounds.forEach((sound) => {
     sound.pause();
     sound.currentTime = 0;
@@ -95,12 +92,12 @@ export function toggleAllSounds() {
   allSounds = [];
   muteSounds = !muteSounds;
   localStorage.setItem("muteSounds", muteSounds);
-  if (!muteSounds) playSound(bg_sound, 0.05, true);
+  if (!muteSounds) playSound(bgSound, 0.05, true);
 }
 window.toggleAllSounds = toggleAllSounds;
 
 /**
- * Stops the game by clearing all intervals stored in the intervalId array.
+ * Stops the game by clearing all intervals and halting the current world's draw loop.
  *
  * @function
  */
@@ -108,6 +105,8 @@ export function stopGame() {
   intervalId.forEach((Id) => {
     clearInterval(Id);
   });
+  intervalId = [];
+  if (world) world.stopDrawing();
 }
 
 /**
@@ -119,6 +118,7 @@ export function stopGame() {
  * @returns {Promise<void>} A promise that resolves when the game world is loaded.
  */
 export async function loadGameWorld() {
+  stopGame();
   initLevel1();
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
@@ -128,9 +128,9 @@ export async function loadGameWorld() {
  * Event listener to handle key presses and update the keyboard state.
  */
 document.addEventListener("keydown", (e) => {
-  if (e.key === "d" || e.key == "ArrowRight") keyboard.RIGHT = true;
-  if (e.key === "a" || e.key == "ArrowLeft") keyboard.LEFT = true;
-  if (e.key === " " || e.key == "w") keyboard.JUMP = true;
+  if (e.key === "d" || e.key === "ArrowRight") keyboard.RIGHT = true;
+  if (e.key === "a" || e.key === "ArrowLeft") keyboard.LEFT = true;
+  if (e.key === " " || e.key === "w") keyboard.JUMP = true;
   if (e.key === "f") keyboard.THRO = true;
 });
 
@@ -138,8 +138,8 @@ document.addEventListener("keydown", (e) => {
  * Event listener to handle key releases and update the keyboard state.
  */
 document.addEventListener("keyup", (e) => {
-  if (e.key === "d" || e.key == "ArrowRight") keyboard.RIGHT = false;
-  if (e.key === "a" || e.key == "ArrowLeft") keyboard.LEFT = false;
-  if (e.key === " " || e.key == "w") keyboard.JUMP = false;
+  if (e.key === "d" || e.key === "ArrowRight") keyboard.RIGHT = false;
+  if (e.key === "a" || e.key === "ArrowLeft") keyboard.LEFT = false;
+  if (e.key === " " || e.key === "w") keyboard.JUMP = false;
   if (e.key === "f") keyboard.THRO = false;
 });

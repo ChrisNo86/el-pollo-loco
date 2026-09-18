@@ -8,7 +8,7 @@
 import { Chicken } from "../classes/chicken.class.js";
 import { ChickenSmall } from "../classes/chicken-small.class.js";
 import { Endboss, resetFirstContact } from "../classes/endboss.class.js";
-import { SalsaBottles } from "../classes/salsa_bottles.class.js";
+import { SalsaBottles } from "../classes/salsa-bottles.class.js";
 import { Coins } from "../classes/coins.class.js";
 import { Cloud } from "../classes/cloud.class.js";
 import { VendingMachine } from "../classes/vending-machine.class.js";

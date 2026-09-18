@@ -6,17 +6,17 @@
  * Import the MovableObject class from the movable-object.class.js module.
  * Import the setStoppableInterval and playSound functions from the game.js module.
  * Import the resetAlert function from the endboss.class.js module.
- * Import the hurt_sound, snoring_sound, and walking_sound audio files from the sounds.js module.
+ * Import the hurtSound, snoringSound, and walkingSound audio files from the sounds.js module.
  */
 import { MovableObject } from "./movable-object.class.js";
 import { setStoppableInterval, playSound } from "../game.js";
 import { resetAlert } from "./endboss.class.js";
-import { hurt_sound, snoring_sound, walking_sound } from "../sounds.js";
+import { hurtSound, snoringSound, walkingSound } from "../sounds.js";
 
 const canvas = document.getElementById("canvas");
 const canvasHeight = canvas.height;
 const canvasWidth = canvas.width;
-export let characterPostion = 0;
+export let characterPosition = 0;
 export let characterDirection = "right";
 
 /**
@@ -29,7 +29,7 @@ export class Character extends MovableObject {
   y = canvasHeight - this.height - 50;
   speed = 10;
   energy = 100;
-  idle_time = 0;
+  idleTime = 0;
   timeToIdle = 15000;
   deadAnimation = 0;
 
@@ -47,16 +47,16 @@ export class Character extends MovableObject {
   ];
 
   IMAGES_IDLE_LONG = [
-    "./assets/images/player/pepe/1_idle//long_idle/I-11.png",
-    "./assets/images/player/pepe/1_idle//long_idle/I-12.png",
-    "./assets/images/player/pepe/1_idle//long_idle/I-13.png",
-    "./assets/images/player/pepe/1_idle//long_idle/I-14.png",
-    "./assets/images/player/pepe/1_idle//long_idle/I-15.png",
-    "./assets/images/player/pepe/1_idle//long_idle/I-16.png",
-    "./assets/images/player/pepe/1_idle//long_idle/I-17.png",
-    "./assets/images/player/pepe/1_idle//long_idle/I-18.png",
-    "./assets/images/player/pepe/1_idle//long_idle/I-19.png",
-    "./assets/images/player/pepe/1_idle//long_idle/I-20.png",
+    "./assets/images/player/pepe/1_idle/long_idle/I-11.png",
+    "./assets/images/player/pepe/1_idle/long_idle/I-12.png",
+    "./assets/images/player/pepe/1_idle/long_idle/I-13.png",
+    "./assets/images/player/pepe/1_idle/long_idle/I-14.png",
+    "./assets/images/player/pepe/1_idle/long_idle/I-15.png",
+    "./assets/images/player/pepe/1_idle/long_idle/I-16.png",
+    "./assets/images/player/pepe/1_idle/long_idle/I-17.png",
+    "./assets/images/player/pepe/1_idle/long_idle/I-18.png",
+    "./assets/images/player/pepe/1_idle/long_idle/I-19.png",
+    "./assets/images/player/pepe/1_idle/long_idle/I-20.png",
   ];
 
   IMAGES_WALK = [
@@ -118,7 +118,7 @@ export class Character extends MovableObject {
    */
   checkCharacterPosition() {
     setStoppableInterval(() => {
-      characterPostion = this.x;
+      characterPosition = this.x;
       if (this.x > canvasWidth * 1.7) {
         resetAlert();
       }
@@ -162,7 +162,7 @@ export class Character extends MovableObject {
       if (this.canMoveRight()) this.characterMoveRight();
       if (this.canMoveLeft()) this.characterMoveLeft();
       if (this.canJump()) this.jump();
-      if (this.x < canvasWidth * 1.8) this.world.camera_x = -this.x + 100;
+      if (this.x < canvasWidth * 1.8) this.world.cameraX = -this.x + 100;
     }, 1000 / 60);
   }
 
@@ -202,9 +202,9 @@ export class Character extends MovableObject {
   checkHurtAnimation() {
     if (this.isHurt() && !this.isDead()) {
       this.playAnimation(this.IMAGES_HURT);
-      snoring_sound.pause();
-      snoring_sound.currentTime = 0;
-      playSound(hurt_sound, 0.1);
+      snoringSound.pause();
+      snoringSound.currentTime = 0;
+      playSound(hurtSound, 0.1);
     }
   }
 
@@ -215,7 +215,7 @@ export class Character extends MovableObject {
   checkJumpAnimation() {
     if (this.isAboveGround()) {
       this.playAnimation(this.IMAGES_JUMP);
-      this.idle_time = new Date().getTime();
+      this.idleTime = new Date().getTime();
     }
   }
 
@@ -226,7 +226,7 @@ export class Character extends MovableObject {
   checkWalkAnimation() {
     if (this.playerMoving() && !this.isAboveGround()) {
       this.playAnimation(this.IMAGES_WALK);
-      this.idle_time = new Date().getTime();
+      this.idleTime = new Date().getTime();
     }
   }
 
@@ -242,7 +242,7 @@ export class Character extends MovableObject {
   checkIdleAnimation() {
     if (!this.isDead() && !this.isHurt() && !this.isAboveGround() && !this.playerMoving()) {
       this.playAnimation(this.IMAGES_IDLE);
-      if (new Date().getTime() - this.idle_time > this.timeToIdle && this.idle_time !== 0) {
+      if (new Date().getTime() - this.idleTime > this.timeToIdle && this.idleTime !== 0) {
         this.playSnoringSound();
         this.playAnimation(this.IMAGES_IDLE_LONG);
       }
@@ -253,7 +253,7 @@ export class Character extends MovableObject {
    * Plays the snoring sound effect at a low volume.
    */
   playSnoringSound() {
-    playSound(snoring_sound, 0.1);
+    playSound(snoringSound, 0.1);
   }
 
   /**
@@ -270,7 +270,7 @@ export class Character extends MovableObject {
    * @returns {boolean} True if the character can move right, otherwise false.
    */
   canMoveRight() {
-    return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !this.isDead();
+    return this.world.keyboard.RIGHT && this.x < this.world.level.levelEndX && !this.isDead();
   }
 
   /**
@@ -281,9 +281,9 @@ export class Character extends MovableObject {
   characterMoveRight() {
     if (!this.isDead()) {
       this.moveRight();
-      snoring_sound.pause();
-      snoring_sound.currentTime = 0;
-      playSound(walking_sound);
+      snoringSound.pause();
+      snoringSound.currentTime = 0;
+      playSound(walkingSound);
       this.otherDirection = false;
       characterDirection = "right";
     }
@@ -306,9 +306,9 @@ export class Character extends MovableObject {
   characterMoveLeft() {
     if (!this.isDead()) {
       this.moveLeft();
-      snoring_sound.pause();
-      snoring_sound.currentTime = 0;
-      playSound(walking_sound);
+      snoringSound.pause();
+      snoringSound.currentTime = 0;
+      playSound(walkingSound);
       this.otherDirection = true;
       characterDirection = "left";
     }

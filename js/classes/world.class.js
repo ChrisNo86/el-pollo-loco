@@ -2,10 +2,6 @@
  * @module "world.class.js"
  */
 
-/**
- * Importing necessary classes and functions for the World class.
- * @module WorldDependencies
- */
 import { Character } from "./character.class.js";
 import { level1 } from "../Levels/level1.js";
 import { StatusBarHealth } from "./status-bar-health.class.js";
@@ -13,11 +9,11 @@ import { SalsaBottlesBar } from "./salsa-bottles-bar.class.js";
 import { CoinsBar } from "./coins-bar.class.js";
 import { StatusBarEndbossHealth } from "./status-bar-endboss-health.class.js";
 import { VendingMachine } from "./vending-machine.class.js";
-import { DangerShield } from "./danger_shield.class.js";
+import { DangerShield } from "./danger-shield.class.js";
 import { ThrowableObject, setEndBossHit } from "./throwable-object.class.js";
 import { setStoppableInterval, stopGame, playSound } from "../game.js";
 import { checkCharacterCollision } from "./endboss.class.js";
-import { coin_sound, win_sound, game_over_sound, bottle_looting_sound, bottle_break_sound } from "../sounds.js";
+import { coinSound, winSound, gameOverSound, bottleLootingSound, bottleBreakSound } from "../sounds.js";
 import { playKillSounds, dominating } from "./world-kill-sounds.js";
 
 /**
@@ -29,7 +25,7 @@ export class World {
   ctx;
   canvas;
   keyboard;
-  camera_x = 0;
+  cameraX = 0;
   statusBarHealth = new StatusBarHealth();
   salsaBottlesBar = new SalsaBottlesBar();
   coinsBar = new CoinsBar();
@@ -45,6 +41,9 @@ export class World {
   rampageCount = 0;
   isGameOver = false;
   playOnlyOnce = true;
+  ENDBOSS_CONTACT_DAMAGE = 30;
+  ENEMY_CONTACT_DAMAGE = 15;
+  isRunning = true;
 
   /**
    * Creates an instance of the World class.
@@ -60,20 +59,13 @@ export class World {
     this.run();
   }
 
-  /**
-   * Sets the world reference for the character.
-   */
+  /** Sets the world reference for the character. */
   setWorld() {
     this.character.world = this;
   }
 
   /**
-   * Starts the game loop by setting up intervals to check various game conditions.
-   * - Checks for collisions every 1 millisecond.
-   * - Checks for throwable objects every 1 millisecond.
-   * - Checks if the character is dead every 250 milliseconds.
-   * - Checks if the end boss is dead every 250 milliseconds.
-   * - Deletes enemies every 250 milliseconds.
+   * Starts the game loop: collision and throwable checks run every 1ms, the rest every 250ms.
    */
   run() {
     setStoppableInterval(() => this.checkCollisions(), 1);
@@ -98,8 +90,9 @@ export class World {
    */
   checkAndSpawnSalsaBottles() {
     if (this.currentCoins >= 1 && this.currentBottles <= 4) {
-      (this.currentBottles += 1), (this.currentCoins -= 1);
-      playSound(bottle_looting_sound, 0.1);
+      this.currentBottles += 1;
+      this.currentCoins -= 1;
+      playSound(bottleLootingSound, 0.1);
       this.coinsBar.setPercentage(this.currentCoins * 10);
       this.salsaBottlesBar.setPercentage(this.currentBottles * 20);
     }
@@ -122,9 +115,7 @@ export class World {
   }
 
   /**
-   * Handles a single dead enemy: stops its movement, removes dead enemies,
-   * and plays kill sounds. If the enemy is the Endboss, it also removes it
-   * from the enemies list after a delay and triggers the game over sequence.
+   * Handles a single dead enemy, removing it and playing kill/win sounds as needed.
    * @param {Object} enemy - The enemy that died.
    */
   handleDeadEnemy(enemy) {
@@ -138,8 +129,8 @@ export class World {
   }
 
   /**
-   * Handles the game over logic by displaying the appropriate screen based on the game outcome.
-   * @param {boolean} [isPlayerDead=false] - Indicates if the player is dead. If true, the game over screen for player death is shown. Otherwise, the win screen is shown.
+   * Shows the game-over or win screen depending on the outcome.
+   * @param {boolean} [isPlayerDead=false] - True if the player died, false if the Endboss died.
    */
   gameOver(isPlayerDead = false) {
     const gameOverScreenRef = document.getElementById("game_over_screen");
@@ -150,8 +141,7 @@ export class World {
   }
 
   /**
-   * Handles the game over sequence when the player is dead.
-   * Shows the game-over screen with its Restart/Home options once the death animation finished.
+   * Shows the game-over screen once the death animation finished.
    * @param {HTMLElement} gameOverScreenRef - Reference to the game over screen element.
    */
   gameOverPlayerDead(gameOverScreenRef) {
@@ -159,19 +149,18 @@ export class World {
     setTimeout(() => {
       stopGame();
       gameOverScreenRef.style.display = "block";
-      playSound(game_over_sound);
+      playSound(gameOverSound);
     }, 2000);
   }
 
   /**
-   * Handles the game over sequence when the Endboss is dead.
    * Shows the win screen with its Restart/Home options.
    * @param {HTMLElement} winScreenRef - Reference to the win screen element.
    */
   gameOverEndbossDead(winScreenRef) {
     this.isGameOver = true;
     stopGame();
-    playSound(win_sound);
+    playSound(winSound);
     winScreenRef.style.display = "block";
   }
 
@@ -182,7 +171,9 @@ export class World {
     setTimeout(() => {
       this.level.enemies.forEach((enemy) => {
         if (enemy.isDead() && enemy.constructor.name !== "Endboss") {
-          this.deadEnemyCount++, this.rampageCount++, this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1);
+          this.deadEnemyCount++;
+          this.rampageCount++;
+          this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1);
         }
       });
     }, 500);
@@ -209,9 +200,11 @@ export class World {
     if (currentTime - this.lastHit < 1000) return;
     if (this.keyboard.THRO && this.currentBottles > 0) {
       let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-      this.throwableObjects.push(bottle), this.currentBottles--, this.salsaBottlesBar.setPercentage(this.currentBottles * 20);
+      this.throwableObjects.push(bottle);
+      this.currentBottles--;
+      this.salsaBottlesBar.setPercentage(this.currentBottles * 20);
       this.lastHit = currentTime;
-      setTimeout(() => playSound(bottle_break_sound, 0.1), 1100);
+      setTimeout(() => playSound(bottleBreakSound, 0.1), 1100);
     }
   }
 
@@ -219,13 +212,15 @@ export class World {
    * Checks all collision types: enemies, throwable objects, salsa bottles, coins, vending machine.
    */
   checkCollisions() {
-    this.checkCollisionsEnemy(), this.checkCollisionsThrowableObjects(), this.checkCollisionsSalasBottles(), this.checkCollisionsCoins(), this.checkCollisionsVendingMachine();
+    this.checkCollisionsEnemy();
+    this.checkCollisionsThrowableObjects();
+    this.checkCollisionsSalasBottles();
+    this.checkCollisionsCoins();
+    this.checkCollisionsVendingMachine();
   }
 
   /**
-   * Checks for collisions between the character and enemies in the level.
-   * If a collision is detected, it handles the collision effects such as
-   * reducing health and updating the status bar.
+   * Checks collisions between the character and enemies, applying jump-kills or contact damage.
    */
   checkCollisionsEnemy() {
     this.level.enemies.forEach((enemy) => {
@@ -234,12 +229,19 @@ export class World {
         return;
       }
       if (this.character.isAbove(enemy)) enemy.hit(4);
-      else {
-        this.character.hit(enemy.constructor.name === "Endboss" ? 30 : 15); //! 15 damage for Endboss, 5 for other enemies
-        checkCharacterCollision(true, enemy.constructor.name);
-        this.statusBarHealth.setPercentage(this.character.energy);
-      }
+      else this.applyEnemyContactDamage(enemy);
     });
+  }
+
+  /**
+   * Applies contact damage to the character from a side/bottom hit by the given enemy.
+   * @param {Object} enemy - The enemy that hit the character.
+   */
+  applyEnemyContactDamage(enemy) {
+    const contactDamage = enemy.constructor.name === "Endboss" ? this.ENDBOSS_CONTACT_DAMAGE : this.ENEMY_CONTACT_DAMAGE;
+    this.character.hit(contactDamage);
+    checkCharacterCollision(true, enemy.constructor.name);
+    this.statusBarHealth.setPercentage(this.character.energy);
   }
 
   /**
@@ -271,7 +273,7 @@ export class World {
     this.level.salsaBottles.forEach((salsaBottle) => {
       if (this.character.isColliding(salsaBottle) && this.currentBottles < 5) {
         this.currentBottles++;
-        playSound(bottle_looting_sound, 0.1);
+        playSound(bottleLootingSound, 0.1);
         this.level.salsaBottles.splice(this.level.salsaBottles.indexOf(salsaBottle), 1);
         this.salsaBottlesBar.setPercentage(this.currentBottles * 20);
       }
@@ -287,7 +289,7 @@ export class World {
   checkCollisionsCoins() {
     this.level.coins.forEach((coin) => {
       if (this.character.isColliding(coin) && this.currentCoins < 20) {
-        playSound(coin_sound, 0.3);
+        playSound(coinSound, 0.3);
         this.currentCoins++;
         this.level.coins.splice(this.level.coins.indexOf(coin), 1);
         this.coinsBar.setPercentage(this.currentCoins * 5);
@@ -298,18 +300,27 @@ export class World {
   /**
    * Draws the game world on the canvas.
    * Clears the canvas, translates the context for camera movement,
-   * draws all layers, and continuously calls itself via requestAnimationFrame.
+   * draws all layers, and continuously calls itself via requestAnimationFrame
+   * until the world is stopped.
    */
   draw() {
+    if (!this.isRunning) return;
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.translate(this.camera_x, 0);
+    this.ctx.translate(this.cameraX, 0);
     this.drawBackgroundLayer();
-    this.ctx.translate(-this.camera_x, 0);
+    this.ctx.translate(-this.cameraX, 0);
     this.drawStatusBars();
-    this.ctx.translate(this.camera_x, 0);
+    this.ctx.translate(this.cameraX, 0);
     this.drawForegroundLayer();
-    this.ctx.translate(-this.camera_x, 0);
+    this.ctx.translate(-this.cameraX, 0);
     requestAnimationFrame(() => this.draw());
+  }
+
+  /**
+   * Stops the draw loop so a replaced world no longer renders onto the canvas.
+   */
+  stopDrawing() {
+    this.isRunning = false;
   }
 
   /**
@@ -356,12 +367,8 @@ export class World {
 
   /**
    * Adds a movable object to the map, drawing it on the canvas context.
-   * If the object is facing the other direction, it flips the image before drawing and flips it back after drawing.
+   * Flips the image before drawing and back afterwards if it faces the other direction.
    * @param {Object} movableObject - The object to be added to the map.
-   * @param {boolean} movableObject.otherDirection - Indicates if the object is facing the other direction.
-   * @param {CanvasRenderingContext2D} movableObject.ctx - The canvas rendering context.
-   * @param {function} movableObject.draw - Method to draw the object on the canvas.
-   * @param {function} movableObject.drawFrame - Method to draw the object's frame on the canvas.
    */
   addToMap(movableObject) {
     if (movableObject.otherDirection) this.flipImage(movableObject);
@@ -373,8 +380,6 @@ export class World {
   /**
    * Flips the image of a movable object horizontally.
    * @param {Object} movableObject - The object to be flipped.
-   * @param {number} movableObject.width - The width of the object.
-   * @param {number} movableObject.x - The x-coordinate of the object.
    */
   flipImage(movableObject) {
     this.ctx.save();

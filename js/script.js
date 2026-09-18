@@ -7,14 +7,14 @@
  * Import background music sound.
  */
 import { loadGameWorld, playSound, stopGame } from "./game.js";
-import { bg_sound } from "./sounds.js";
+import { bgSound } from "./sounds.js";
 
 /**
  * Plays the background sound with a slight delay.
  * The sound is played at a volume of 0.05 and loops indefinitely.
  */
 function playBgSound() {
-  setTimeout(() => playSound(bg_sound, 0.05, true), 1); // play the background music
+  setTimeout(() => playSound(bgSound, 0.05, true), 1);
 }
 
 /**

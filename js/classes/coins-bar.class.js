@@ -1,5 +1,5 @@
 /**
- * @module "coins.bar.class.js"
+ * @module "coins-bar.class.js"
  */
 
 /**

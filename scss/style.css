@@ -84,10 +84,11 @@ a {
   flex-direction: column;
   align-items: center;
   position: relative;
-  min-height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
 }
 .main_content .imprint_site,
-.main_content .privacy_Policy_site {
+.main_content .privacy_policy_site {
   background-color: rgb(245, 199, 149);
   filter: drop-shadow(2px 2px 2px rgb(0, 0, 0));
   border: 4px solid rgb(194, 104, 70);
@@ -105,29 +106,24 @@ a {
 }
 @media (max-width: 945px) {
   .main_content .imprint_site,
-  .main_content .privacy_Policy_site {
+  .main_content .privacy_policy_site {
     margin-block: 25px;
   }
 }
 .main_content .imprint_site .return,
-.main_content .privacy_Policy_site .return {
-  display: none;
+.main_content .privacy_policy_site .return {
+  display: block;
   position: absolute;
   top: 10px;
   right: 20px;
-}
-@media (max-width: 945px) {
-  .main_content .imprint_site .return,
-  .main_content .privacy_Policy_site .return {
-    display: block;
-  }
+  z-index: 1;
 }
 .main_content .imprint_site .return:hover,
-.main_content .privacy_Policy_site .return:hover {
+.main_content .privacy_policy_site .return:hover {
   cursor: pointer;
 }
 .main_content .imprint_site .return svg,
-.main_content .privacy_Policy_site .return svg {
+.main_content .privacy_policy_site .return svg {
   height: 35px;
   width: 35px;
   fill: rgb(194, 104, 70);
@@ -137,23 +133,23 @@ a {
 .main_content .imprint_site .address,
 .main_content .imprint_site .representedBy,
 .main_content .imprint_site .contact,
-.main_content .privacy_Policy_site .header,
-.main_content .privacy_Policy_site .address,
-.main_content .privacy_Policy_site .representedBy,
-.main_content .privacy_Policy_site .contact {
+.main_content .privacy_policy_site .header,
+.main_content .privacy_policy_site .address,
+.main_content .privacy_policy_site .representedBy,
+.main_content .privacy_policy_site .contact {
   margin-block: 10px;
 }
 .main_content .imprint_site a,
-.main_content .privacy_Policy_site a {
+.main_content .privacy_policy_site a {
   color: rgb(194, 104, 70);
   filter: drop-shadow(0px 0px 1px rgb(255, 255, 255));
 }
 .main_content .imprint_site h1,
 .main_content .imprint_site h2,
 .main_content .imprint_site h3,
-.main_content .privacy_Policy_site h1,
-.main_content .privacy_Policy_site h2,
-.main_content .privacy_Policy_site h3 {
+.main_content .privacy_policy_site h1,
+.main_content .privacy_policy_site h2,
+.main_content .privacy_policy_site h3 {
   color: rgb(194, 104, 70);
   filter: drop-shadow(0px 0px 1px rgb(255, 255, 255));
 }
@@ -162,19 +158,19 @@ a {
 .main_content .imprint_site h3,
 .main_content .imprint_site p,
 .main_content .imprint_site ul,
-.main_content .privacy_Policy_site h1,
-.main_content .privacy_Policy_site h2,
-.main_content .privacy_Policy_site h3,
-.main_content .privacy_Policy_site p,
-.main_content .privacy_Policy_site ul {
+.main_content .privacy_policy_site h1,
+.main_content .privacy_policy_site h2,
+.main_content .privacy_policy_site h3,
+.main_content .privacy_policy_site p,
+.main_content .privacy_policy_site ul {
   margin-top: 15px;
 }
 .main_content .imprint_site ul,
-.main_content .privacy_Policy_site ul {
+.main_content .privacy_policy_site ul {
   margin-left: 20px;
 }
 .main_content .imprint_site li,
-.main_content .privacy_Policy_site li {
+.main_content .privacy_policy_site li {
   margin-block: 10px;
 }
 .main_content .address p,
@@ -228,6 +224,9 @@ a {
 }
 .main_content .canvas_container {
   position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -300,7 +299,7 @@ a {
   display: block;
   background-color: rgb(0, 0, 0);
   box-shadow: 0px 5px 10px 10px rgba(0, 0, 0, 0.5);
-  max-height: 100dvh;
+  max-height: 100%;
   max-width: 100%;
 }
 .main_content .canvas_container .game_control {
@@ -338,6 +337,7 @@ a {
   touch-action: manipulation;
   -webkit-touch-callout: none;
   user-select: none;
+  cursor: pointer;
 }
 .main_content .canvas_container .game_control .controls_left .move_left svg,
 .main_content .canvas_container .game_control .controls_left .move_right svg,
