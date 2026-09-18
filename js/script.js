@@ -73,12 +73,13 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
- * Toggles the fullscreen mode for the canvas element.
- * This function requests the browser to display the canvas element in fullscreen.
+ * Toggles fullscreen mode for the whole canvas container.
+ * Uses the container (not the bare canvas) so overlays like the start,
+ * game-over and win screens still show up while in fullscreen.
  */
 function toggleFullscreen() {
-  const canvas = document.getElementById("canvas");
-  canvas.requestFullscreen();
+  const canvasContainer = document.getElementById("canvas_container");
+  canvasContainer.requestFullscreen();
 }
 
 window.toggleFullscreen = toggleFullscreen;
