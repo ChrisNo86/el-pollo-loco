@@ -65,11 +65,11 @@ export class World {
   }
 
   /**
-   * Starts the game loop: collision and throwable checks run every 1ms, the rest every 250ms.
+   * Starts the game loop: collision/throwable checks run every frame (~60fps), the rest every 250ms.
    */
   run() {
-    setStoppableInterval(() => this.checkCollisions(), 1);
-    setStoppableInterval(() => this.checkThrowableObjects(), 1);
+    setStoppableInterval(() => this.checkCollisions(), 1000 / 60);
+    setStoppableInterval(() => this.checkThrowableObjects(), 1000 / 60);
     setStoppableInterval(() => this.checkCharacterIsDead(), 250);
     setStoppableInterval(() => this.checkEndbossIsDead(), 250);
     setStoppableInterval(() => this.deleteEnemy(), 250);

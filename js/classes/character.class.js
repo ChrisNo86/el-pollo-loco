@@ -168,18 +168,12 @@ export class Character extends MovableObject {
 
   /**
    * Animates the character by setting up intervals for various animations.
-   * Each animation is checked at a specified interval.
-   *
-   * - Dead animation is checked every 250ms.
-   * - Hurt animation is checked every 250ms.
-   * - Jump animation is checked every 250ms.
-   * - Walk animation is checked every 100ms.
-   * - Idle animation is checked every 250ms.
+   * Jump and walk run at a faster cadence than the others for smoother motion.
    */
   characterAnimation() {
     setStoppableInterval(this.checkDeadAnimation.bind(this), 250);
     setStoppableInterval(this.checkHurtAnimation.bind(this), 250);
-    setStoppableInterval(this.checkJumpAnimation.bind(this), 250);
+    setStoppableInterval(this.checkJumpAnimation.bind(this), 80);
     setStoppableInterval(this.checkWalkAnimation.bind(this), 100);
     setStoppableInterval(this.checkIdleAnimation.bind(this), 250);
   }
